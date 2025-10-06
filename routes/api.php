@@ -13,8 +13,8 @@ Route::group(['prefix' => 'v1'], function () {
     // Authentication Routes
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/whoami', [AuthController::class, 'me'])->middleware('auth:sanctum');
+        Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+        Route::get('/whoami', [AuthController::class, 'whoami'])->middleware('auth:sanctum');
     });
 
     // Transactions Routes
