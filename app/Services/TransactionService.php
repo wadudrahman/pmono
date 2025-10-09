@@ -67,7 +67,8 @@ class TransactionService
 
                     // Check balance with double precision to avoid floating point issues
                     $senderBalance = (float) $sender->balance;
-                    if (\bccomp($senderBalance, $totalDeduction, 2) < 0) {
+                    // Using regular comparison instead of bccomp for now
+                    if ($senderBalance < $totalDeduction) {
                         throw new \Exception(sprintf(
                             'Insufficient balance. Required: $%.2f (including commission), Available: $%.2f',
                             $totalDeduction,
