@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debug</title>
+</head>
+<body>
+    <h1>Debug Console</h1>
+    <div id="app">Loading Vue app...</div>
+    <div id="errors" style="background: #fee; padding: 10px; margin: 10px 0;"></div>
+    <div id="log" style="background: #efe; padding: 10px; margin: 10px 0;"></div>
+
+    <script>
+        const errorDiv = document.getElementById('errors');
+        const logDiv = document.getElementById('log');
+
+        window.addEventListener('error', (e) => {
+            errorDiv.innerHTML += `<p>ERROR: ${e.message} at ${e.filename}:${e.lineno}:${e.colno}</p>`;
+            console.error('Caught error:', e);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            errorDiv.innerHTML += `<p>PROMISE REJECTION: ${e.reason}</p>`;
+            console.error('Unhandled promise rejection:', e);
+        });
+
+        // Override console.log
+        const originalLog = console.log;
+        console.log = (...args) => {
+            logDiv.innerHTML += `<p>LOG: ${args.join(' ')}</p>`;
+            originalLog.apply(console, args);
+        };
+    </script>
+
+    <script type="module">
+        logDiv.innerHTML += '<p>Loading modules...</p>';
+
+        try {
+            // Load Vite
+            await import('http://localhost:19173/@vite/client');
+            logDiv.innerHTML += '<p>✓ Vite client loaded</p>';
+
+            // Load app
+            await import('http://localhost:19173/resources/js/app.js');
+            logDiv.innerHTML += '<p>✓ App.js loaded</p>';
+        } catch (error) {
+            errorDiv.innerHTML += `<p>Module loading error: ${error.message}</p>`;
+            console.error('Module loading error:', error);
+        }
+    </script>
+</body>
+</html>

@@ -127,6 +127,49 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        // Security audit log channel
+        'audit' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/audit.log'),
+            'level' => 'info',
+            'days' => 90,
+            'replace_placeholders' => true,
+        ],
+
+        // Security-specific log channel
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 90,
+            'replace_placeholders' => true,
+        ],
+
+        // Critical security events
+        'critical' => [
+            'driver' => 'stack',
+            'channels' => ['security', 'slack'],
+            'ignore_exceptions' => false,
+        ],
+
+        // Transaction logs
+        'transactions' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/transactions.log'),
+            'level' => 'info',
+            'days' => 365, // Keep for a year for compliance
+            'replace_placeholders' => true,
+        ],
+
+        // Failed login attempts
+        'failed_logins' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/failed_logins.log'),
+            'level' => 'warning',
+            'days' => 30,
+            'replace_placeholders' => true,
+        ],
+
     ],
 
 ];
