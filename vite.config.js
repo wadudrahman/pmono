@@ -10,6 +10,11 @@ export default defineConfig({
         hmr: {
             port: 19173,
             host: 'localhost',
+        },
+        origin: 'http://localhost:19173',
+        cors: {
+            origin: ['http://localhost:19080', 'http://localhost:19173'],
+            credentials: true
         }
     },
     plugins: [
