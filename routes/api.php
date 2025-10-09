@@ -1,13 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\TransactionController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\{AuthController, TransactionController};
 use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 Route::group(['prefix' => 'v1'], function () {
     // Authentication Routes
@@ -18,9 +12,9 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     // Transactions Routes
-//    Route::middleware('auth:sanctum')->group(['prefix' => 'transactions'], function () {
-//        Route::get('/', [TransactionController::class, 'getTransactions']);
-//        Route::post('/', [TransactionController::class, 'storeTransaction']);
-//    });
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/transactions', [TransactionController::class, 'getTransactions']);
+        Route::post('/transactions', [TransactionController::class, 'storeTransaction']);
+    });
 
 });

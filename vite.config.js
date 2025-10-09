@@ -8,8 +8,8 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5173,
         hmr: {
+            port: 19173,
             host: 'localhost',
-            port: 19173
         }
     },
     plugins: [
